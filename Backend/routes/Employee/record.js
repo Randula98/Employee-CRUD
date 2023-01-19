@@ -129,8 +129,6 @@ recordRoutes.route("/login").post(async (req, response) => {
           const token = jwt.sign(
             {
               id: result._id,
-              email: result.emp_email,
-              emp_password: req.body.emp_password,
             },
             "secretkey"
           );
