@@ -17,5 +17,8 @@
     "jwt": "^0.2.0",
     "mongodb": "^4.13.0",
     "nodeman": "^1.1.2"
+  },
+  "devDependencies": {
+    "bcrypt": "^5.1.0"
   }
 }

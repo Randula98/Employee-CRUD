@@ -8,6 +8,10 @@ const dbo = require("../../db/conn");
 
 const ObjectId = require("mongodb").ObjectId;
 
+const bcrypt = require("bcrypt");
+
+const saltRounds = 10;
+
 //Select all records
 recordRoutes.route("/").get(function (req, res) {
   let db_connect = dbo.getDb("Bank");
@@ -19,6 +23,20 @@ recordRoutes.route("/").get(function (req, res) {
       res.json(result);
     });
 });
+
+//select employees by bank name and branch name
+recordRoutes.route("/bank/:bank_name/branch/:branch_name").get(function (req, res) {
+  let db_connect = dbo.getDb("Bank");
+  let myquery = { bank_name: req.params.bank_name, branch_name: req.params.branch_name };
+  db_connect
+    .collection("Employee")
+    .find(myquery)
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
 
 //Select one record
 recordRoutes.route("/:id").get(function (req, res) {
@@ -33,34 +51,45 @@ recordRoutes.route("/:id").get(function (req, res) {
 });
 
 //add record
-recordRoutes.route("/add").post(function (req, response) {
+recordRoutes.route("/add").post(async (req, response) => {
+  let passowrd = await bcrypt.hash(req.body.emp_password, saltRounds);
   let db_connect = dbo.getDb("Bank");
-  let myobj = {
-    emp_name: req.body.emp_name,
-    emp_email: req.body.emp_email,
-    emp_photo: req.body.emp_photo,
-    emp_address: req.body.emp_address,
-    emp_password: req.body.emp_password,
-    branch_name: req.body.branch_name,
-    bank_name: req.body.bank_name,
-  };
-  db_connect.collection("Employee").insertOne(myobj, function (err, res) {
+  let email = req.body.emp_email;
+
+  db_connect.collection("Employee").findOne({ emp_email: email }, async (err, result) => {
     if (err) throw err;
-    response.json(res);
+    if (result) {
+      return response.json({ user: false, msg: "Email Already Exist", status: "error" });
+    } else {
+      let myobj = {
+        emp_name: req.body.emp_name,
+        emp_email: req.body.emp_email,
+        emp_photo: req.body.emp_photo,
+        emp_address: req.body.emp_address,
+        emp_password: passowrd,
+        branch_name: req.body.branch_name,
+        bank_name: req.body.bank_name,
+      };
+      db_connect.collection("Employee").insertOne(myobj, function (err, res) {
+        if (err) throw err;
+        response.json(res);
+      });
+    }
   });
 });
 
 //update record by id
-recordRoutes.route("/update/:id").post(function (req, response) {
+recordRoutes.route("/update/:id").post(async (req, response) => {
   let db_connect = dbo.getDb("Bank");
   let myquery = { _id: ObjectId(req.params.id) };
+  let passowrd = await bcrypt.hash(req.body.emp_password, saltRounds);
   let newvalues = {
     $set: {
       emp_name: req.body.emp_name,
       emp_email: req.body.emp_email,
       emp_photo: req.body.emp_photo,
       emp_address: req.body.emp_address,
-      emp_password: req.body.emp_password,
+      emp_password: passowrd,
       branch_name: req.body.branch_name,
       bank_name: req.body.bank_name,
     },
@@ -86,26 +115,35 @@ recordRoutes.route("/delete/:id").delete((req, response) => {
 });
 
 //login function
-recordRoutes.route("/login").post(function (req, response) {
+recordRoutes.route("/login").post(async (req, response) => {
   let db_connect = dbo.getDb("Bank");
   let email = req.body.emp_email;
   let password = req.body.emp_password;
 
-  db_connect.collection("Employee").findOne({ emp_email: email, emp_password: password }, function (err, result) {
+  db_connect.collection("Employee").findOne({ emp_email: email }, async (err, result) => {
     if (err) throw err;
     if (result) {
-      const token = jwt.sign(
-        {
-          id: result._id,
-          email: result.emp_email,
-          password: result.emp_password,
-        },
-        "secretkey"
-      );
+      try {
+        if (await bcrypt.compare(password, result.emp_password)) {
+          console.log("Login Success");
+          const token = jwt.sign(
+            {
+              id: result._id,
+              email: result.emp_email,
+              emp_password: req.body.emp_password,
+            },
+            "secretkey"
+          );
 
-      return response.json({ user: true, msg: "Login Success", status: "ok", token: token });
+          return response.json({ user: true, msg: "Login Success", status: "ok", token: token });
+        } else {
+          return response.json({ user: false, msg: "Invalid Password", status: "error" });
+        }
+      } catch {
+        response.status(500).send()
+      }
     } else {
-      return response.json({ user: false, msg: "Login Failed", status: "error" });
+      return response.json({ user: false, msg: "User Not Found", status: "error" });
     }
   });
 });
