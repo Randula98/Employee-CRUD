@@ -24,6 +24,20 @@ recordRoutes.route("/").get(function (req, res) {
     });
 });
 
+//select employees by bank name and branch name
+recordRoutes.route("/bank/:bank_name/branch/:branch_name").get(function (req, res) {
+  let db_connect = dbo.getDb("Bank");
+  let myquery = { bank_name: req.params.bank_name, branch_name: req.params.branch_name };
+  db_connect
+    .collection("Employee")
+    .find(myquery)
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
+
+
 //Select one record
 recordRoutes.route("/:id").get(function (req, res) {
   let db_connect = dbo.getDb("Bank");
@@ -39,7 +53,6 @@ recordRoutes.route("/:id").get(function (req, res) {
 //add record
 recordRoutes.route("/add").post(async (req, response) => {
   let passowrd = await bcrypt.hash(req.body.emp_password, saltRounds);
-  console.log(passowrd);
   let db_connect = dbo.getDb("Bank");
   let email = req.body.emp_email;
 
