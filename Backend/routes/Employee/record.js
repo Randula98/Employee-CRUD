@@ -41,18 +41,27 @@ recordRoutes.route("/add").post(async (req, response) => {
   let passowrd = await bcrypt.hash(req.body.emp_password, saltRounds);
   console.log(passowrd);
   let db_connect = dbo.getDb("Bank");
-  let myobj = {
-    emp_name: req.body.emp_name,
-    emp_email: req.body.emp_email,
-    emp_photo: req.body.emp_photo,
-    emp_address: req.body.emp_address,
-    emp_password: passowrd,
-    branch_name: req.body.branch_name,
-    bank_name: req.body.bank_name,
-  };
-  db_connect.collection("Employee").insertOne(myobj, function (err, res) {
+  let email = req.body.emp_email;
+
+  db_connect.collection("Employee").findOne({ emp_email: email }, async (err, result) => {
     if (err) throw err;
-    response.json(res);
+    if (result) {
+      return response.json({ user: false, msg: "Email Already Exist", status: "error" });
+    } else {
+      let myobj = {
+        emp_name: req.body.emp_name,
+        emp_email: req.body.emp_email,
+        emp_photo: req.body.emp_photo,
+        emp_address: req.body.emp_address,
+        emp_password: passowrd,
+        branch_name: req.body.branch_name,
+        bank_name: req.body.bank_name,
+      };
+      db_connect.collection("Employee").insertOne(myobj, function (err, res) {
+        if (err) throw err;
+        response.json(res);
+      });
+    }
   });
 });
 
@@ -112,9 +121,9 @@ recordRoutes.route("/login").post(async (req, response) => {
             },
             "secretkey"
           );
-        
+
           return response.json({ user: true, msg: "Login Success", status: "ok", token: token });
-        }else{
+        } else {
           return response.json({ user: false, msg: "Invalid Password", status: "error" });
         }
       } catch {
