@@ -1,10 +1,55 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from 'react'
+import { React, useState } from 'react'
+import Swal from 'sweetalert2'
+
 import "./login.css"
+import { loginImage } from "../../asserts";
 
 export default function Login() {
 
-  const loginImage = "https://firebasestorage.googleapis.com/v0/b/employee-crud-39d26.appspot.com/o/asserts%2Fdraw2.webp?alt=media&token=3a850439-8401-431f-9b5f-fe9e7a6d5e45";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  
+
+  function test() {
+    alert("Login Successfully !!");
+  }
+  async function login(event) {
+    event.preventDefault();
+    const response = await fetch(`http://localhost:5000/employee/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const content = await response.json();
+    console.log(content);
+
+    if (content.user === true) {
+      sessionStorage.setItem("authToken", content.token);
+      Swal.fire({
+        icon: 'success',
+        title: 'Successful...',
+        text: 'Login Successfully !!',
+        footer: '<a href="/dash">Go to Dashboard</a>'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/dash";
+        }
+      })
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Check Your Email & Passoword Again!!!',
+      })
+    }
+  }
 
   return (
     <>
@@ -27,13 +72,15 @@ export default function Login() {
                 Login
               </h2>
 
-              <form>
+              <form onSubmit={login} autoComplete="off">
                 <div className="mb-6">
                   <input
-                    type="text"
+                    type="email"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     id="exampleFormControlInput2"
                     placeholder="Email address"
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -43,15 +90,17 @@ export default function Login() {
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     id="exampleFormControlInput2"
                     placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
                 </div>
 
                 <div className="text-center lg:text-left">
                   <button
-                    type="button"
-                    className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                    type="submit"
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                   >
-                    Login
+                    Sign in
                   </button>
                   <p className="text-sm font-semibold mt-2 pt-1 mb-0">
                     Don't have an account?
