@@ -1,0 +1,8 @@
+.homecontainer{
+    width: 60%;
+    height: 500px;
+    margin:0px auto;
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: auto auto;
+}
