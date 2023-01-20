@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import NavBar from "../components/navbar";
 
-// import {
-
-// } from "../pages";
+import {
+    Home,
+    Login,
+    Register
+} from "../pages";
 
 function App() {
     return (
@@ -13,7 +15,9 @@ function App() {
             <Router>
                 <NavBar />
                     <Routes>
-
+                        <Route path="/" element={<Home />} /> 
+                        <Route path="/login" element={<Login />} />  
+                        <Route path="/register" element={<Register />} />
                     </Routes>
                 
             </Router>
