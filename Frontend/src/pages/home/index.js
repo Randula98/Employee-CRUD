@@ -1,21 +1,18 @@
 import React from 'react'
 import './home.css'
 
+import { homeLoginImage, homeRegisterImage } from '../../asserts'
+import { login, register, loginDetails, registerDetails } from '../../asserts'
+
 export default function Home() {
 
-    const login = "Login to the System";
-    const register = "Register to the System";
-    const loginDetails = "If you are an existing user, please login to the system.";
-    const registerDetails = "If you are a new user, please register to the system.";
-    const loginImage = "https://firebasestorage.googleapis.com/v0/b/employee-crud-39d26.appspot.com/o/asserts%2F4957136.jpg?alt=media&token=f160a402-4514-45fc-9438-2f89c8f2d4a1";
-    const registerImage = "https://firebasestorage.googleapis.com/v0/b/employee-crud-39d26.appspot.com/o/asserts%2F6368592.jpg?alt=media&token=cb81a178-c667-4492-b93a-662ea7ce3cea";
-
+    
     return (
         <>
             <div className='homecontainer'>
                 <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                     <a href="/login">
-                        <img className="rounded-t-lg" src={loginImage} alt="" />
+                        <img className="rounded-t-lg" src={homeLoginImage} alt="" />
                     </a>
                     <div className="p-5">
                         <a href="/login">
@@ -31,7 +28,7 @@ export default function Home() {
 
                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                     <a href="/register">
-                        <img className="rounded-t-lg" src={registerImage} alt="" />
+                        <img className="rounded-t-lg" src={homeRegisterImage} alt="" />
                     </a>
                     <div class="p-5">
                         <a href="/register">

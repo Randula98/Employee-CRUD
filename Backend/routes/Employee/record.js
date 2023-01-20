@@ -117,8 +117,8 @@ recordRoutes.route("/delete/:id").delete((req, response) => {
 //login function
 recordRoutes.route("/login").post(async (req, response) => {
   let db_connect = dbo.getDb("Bank");
-  let email = req.body.emp_email;
-  let password = req.body.emp_password;
+  let email = req.body.email;
+  let password = req.body.password;
 
   db_connect.collection("Employee").findOne({ emp_email: email }, async (err, result) => {
     if (err) throw err;
