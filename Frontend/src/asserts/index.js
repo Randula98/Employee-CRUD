@@ -9,6 +9,7 @@ const login = "Login to the System";
 const register = "Register to the System";
 const loginDetails = "If you are an existing user, please login to the system.";
 const registerDetails = "If you are a new user, please register to the system.";
+const footerText = "© 2023 Designed By Randula Yashasmith Mawaththa. All rights reserved.";
     
 
 export {
@@ -19,5 +20,6 @@ export {
     login,
     register,
     loginDetails,
-    registerDetails
+    registerDetails,
+    footerText
 }

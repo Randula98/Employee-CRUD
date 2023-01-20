@@ -9,12 +9,7 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   
-
-  function test() {
-    alert("Login Successfully !!");
-  }
   async function login(event) {
     event.preventDefault();
     const response = await fetch(`http://localhost:5000/employee/login`, {
@@ -116,6 +111,7 @@ export default function Login() {
           </div>
         </div>
       </section>
+      <div className = "w-full h-40"></div>
     </>
   )
 }
