@@ -7,8 +7,6 @@ app.use(cors());
 app.use(express.json());
 
 //routes
-app.use("/bank" , require("./routes/bank/record"));
-app.use("/bank_branch" , require("./routes//bank_branch/record"));
 app.use("/employee" , require("./routes/Employee/record"));
 
 // get driver connection
