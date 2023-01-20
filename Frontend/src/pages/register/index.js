@@ -225,6 +225,7 @@ export default function Register() {
           </div>
         </div>
       </section>
+      <div className = "w-full h-10"></div>
     </>
   )
 }
