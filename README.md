@@ -14,7 +14,7 @@ $ cd Employee-CRUD/Backend
 
 ## Step 2:
 
-* ### Copy the .env on the "Backend" folder.
+* ### Copy the .env to the "Backend" folder.
 
 ## Step 3:
 
@@ -39,6 +39,8 @@ $ yarn start
 * ### Run Backend Application
 
 ## Step 2:
+
+* ### Enter the following commands in cmd.
 
 ```
 $ cd Employee-CRUD/Frontend
