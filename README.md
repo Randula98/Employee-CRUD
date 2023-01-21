@@ -58,7 +58,7 @@ $ yarn start
 
 
 ## Home View :
-![image]([#](https://firebasestorage.googleapis.com/v0/b/employee-crud-39d26.appspot.com/o/screenshots%2FHome.png?alt=media&token=052957fc-1fbd-4531-abc2-80e08f0d38ee))
+![image](https://firebasestorage.googleapis.com/v0/b/employee-crud-39d26.appspot.com/o/screenshots%2FHome.png?alt=media&token=052957fc-1fbd-4531-abc2-80e08f0d38ee)
 
 ## Login View :
 ![image]([#](https://firebasestorage.googleapis.com/v0/b/employee-crud-39d26.appspot.com/o/screenshots%2FLogin.png?alt=media&token=89c15ce8-1ef6-485e-8d0f-a8183c587297))
