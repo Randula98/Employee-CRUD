@@ -10,7 +10,8 @@ const register = "Register to the System";
 const loginDetails = "If you are an existing user, please login to the system.";
 const registerDetails = "If you are a new user, please register to the system.";
 const footerText = "© 2023 Designed By Randula Yashasmith Mawaththa. All rights reserved.";
-    
+const AllEmp = "All Employees who are registered to the system";
+const filter = "Filter Employees"
 
 export {
     registerImage,
@@ -21,5 +22,7 @@ export {
     register,
     loginDetails,
     registerDetails,
-    footerText
+    footerText,
+    AllEmp,
+    filter
 }

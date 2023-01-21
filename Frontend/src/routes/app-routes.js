@@ -9,7 +9,9 @@ import {
 import {
     Home,
     Login,
-    Register
+    Register,
+    Dash,
+    Filter
 } from "../pages";
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
                         <Route path="/" element={<Home />} /> 
                         <Route path="/login" element={<Login />} />  
                         <Route path="/register" element={<Register />} />
+                        <Route path="/dash" element={<Dash />} />
+                        <Route path="/filter/:bank/:branch" element={<Filter />} />
                     </Routes>
                     
                 <Footer/>

@@ -21,6 +21,16 @@ export default function Register() {
   async function onSubmit(e) {
     e.preventDefault();
 
+    const isSelected = branch_name === "none" || bank_name === "none" || branch_name === "" || bank_name === ""
+
+    if (isSelected) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "Selecr Branch & Bank Name",
+      })
+    }
+    else {
       const storageRef = ref(storage, `employees/${Image.name + v4()}`);
 
       await uploadBytes(storageRef, emp_photo)
@@ -65,7 +75,7 @@ export default function Register() {
             Swal.fire({
               icon: 'success',
               title: 'Successful...',
-              text: 'Login Successfully !!',
+              text: 'Registerd Successfully !!',
               footer: '<a href="/login">Go to Login</a>'
             }).then((result) => {
               if (result.isConfirmed) {
@@ -84,6 +94,7 @@ export default function Register() {
         .catch((err) => {
           console.log(err);
         });
+    }
   }
 
 
@@ -122,7 +133,7 @@ export default function Register() {
 
                 <div className="mb-6">
                   <input
-                    type="text"
+                    type="email"
                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     id="exampleFormControlInput2"
                     placeholder="Email address"
@@ -167,7 +178,7 @@ export default function Register() {
                   <div class="mb-6">
                     <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Select a Bank</label>
                     <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={(e) => { setBank_name(e.target.value) }}>
-                      <option selected>Select a Bank</option>
+                      <option value = "none" selected>Select a Bank</option>
                       <option value="Commercial Bank">Commercial Bank</option>
                       <option value="People's Bank">People's Bank</option>
                       <option value="Bank of Ceylon">Bank of Ceylon</option>
@@ -179,7 +190,7 @@ export default function Register() {
                   <div class="mb-6">
                     <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Select a Branch</label>
                     <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={(e) => { setBranch_name(e.target.value) }} >
-                      <option selected>Select a Branch</option>
+                      <option value = "none" selected>Select a Branch</option>
                       <option value="Kandy">Kandy</option>
                       <option value="Colombo">Colombo</option>
                       <option value="Kegalle">Kegalle</option>
@@ -208,8 +219,8 @@ export default function Register() {
                                     focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile"
                     onChange={(e) => {
                       setEmp_photo(e.target.files[0]);
-                    }} 
-                    required/>
+                    }}
+                    required />
                 </div>
 
                 <div className="text-center lg:text-left">
@@ -225,7 +236,7 @@ export default function Register() {
           </div>
         </div>
       </section>
-      <div className = "w-full h-10"></div>
+      <div className="w-full h-10"></div>
     </>
   )
 }
